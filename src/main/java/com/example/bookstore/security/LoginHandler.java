@@ -24,7 +24,7 @@ public class LoginHandler implements AuthenticationSuccessHandler {
         // Reindirizza in base al ruolo
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("ROLE_ADMIN".equals(auth.getAuthority())) {
-                response.sendRedirect("/admin/home");
+                response.sendRedirect("/admin/books");
                 return;
             } else if ("ROLE_USER".equals(auth.getAuthority())) {
                 response.sendRedirect("/books");
