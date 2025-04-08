@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Libreria Online</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+      /* Stile minimale per il form di login */
+      .login-container {
+          max-width: 400px;
+          margin: 50px auto;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+      }
+      .login-container h2 {
+          text-align: center;
+          margin-bottom: 20px;
+      }
+      .login-container label {
+          display: block;
+          margin-top: 10px;
+      }
+      .login-container input {
+          width: 100%;
+          padding: 8px;
+          margin-top: 5px;
+      }
+      .login-container button {
+          width: 100%;
+          padding: 10px;
+          margin-top: 20px;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Accedi</h2>
+        <!-- Il form invia i dati a /login via POST -->
+        <form method="post" th:action="@{/login}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        
+            <button type="submit">Login</button>
+        </form>
+        <!-- Messaggio di errore (facoltativo) -->
+        <p th:if="${param.error}" style="color: red;">Credenziali errate, riprova.</p>
+    </div>
+</body>
+</html>

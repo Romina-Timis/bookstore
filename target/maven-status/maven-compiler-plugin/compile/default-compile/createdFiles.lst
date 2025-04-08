@@ -1,0 +1,12 @@
+com/example/bookstore/controller/CarrelloController.class
+com/example/bookstore/model/Carrello.class
+com/example/bookstore/controller/LoginController.class
+com/example/bookstore/repository/BookRepository.class
+com/example/bookstore/security/CustomUserDetails.class
+com/example/bookstore/model/Book.class
+com/example/bookstore/model/User.class
+com/example/bookstore/service/BookService.class
+com/example/bookstore/repository/CarrelloRepository.class
+com/example/bookstore/BookstoreApplication.class
+com/example/bookstore/repository/UserRepository.class
+com/example/bookstore/controller/BookController.class

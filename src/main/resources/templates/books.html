@@ -3,27 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Libreria - Libri Disponibili</title>
+    <!-- Assicurati che il file CSS sia in src/main/resources/static/css/ -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
+    <!-- Navbar -->
     <nav style="display: flex; justify-content: space-between; padding: 1rem; background-color: #f0f0f0;">
-        <div><strong>Libreria Online</strong></div>
-        <div><a href="/logout">Logout</a></div>
+        <div>
+            <strong>Libreria Online</strong>
+        </div>
+        <div>
+            <!-- Qui puoi aggiungere altri link (es. logout, carrello, etc.) -->
+            <a href="/logout">Logout</a>
+        </div>
     </nav>
 
+    <!-- Contenuto principale -->
     <main style="padding: 2rem;">
         <h2>Libri Disponibili</h2>
+        
+        <!-- Se la lista dei libri è vuota -->
         <div th:if="${books.isEmpty()}">
             <p>Nessun libro disponibile.</p>
         </div>
-
+        
+        <!-- Ciclo su ciascun libro -->
         <div th:each="book : ${books}" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
-            <h3 th:text="${book.title}"></h3>
-            <p><strong>Autore:</strong> <span th:text="${book.author}"></span></p>
-            <p><strong>Prezzo:</strong> <span th:text="${book.price}"></span> €</p>
-            <p><strong>Descrizione:</strong> <span th:text="${book.description}"></span></p>
+            <h3 th:text="${book.title}">Titolo del Libro</h3>
+            <p><strong>Autore:</strong> <span th:text="${book.author}">Autore del Libro</span></p>
+            <p><strong>Prezzo:</strong> <span th:text="${book.price}">Prezzo</span> €</p>
+            <p><strong>Descrizione:</strong> <span th:text="${book.description}">Descrizione</span></p>
             <img th:if="${book.imageUrl}" th:src="${book.imageUrl}" alt="Copertina" style="max-width: 150px;" />
+            
+            <!-- Pulsante Aggiungi al Carrello -->
+            <button th:onclick="|window.location.href='/carrello/add/' + ${book.id}|"
+                    style="margin-top: 1rem; padding: 5px 10px; cursor: pointer;">
+                Aggiungi al Carrello
+            </button>
         </div>
     </main>
 

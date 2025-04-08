@@ -1,0 +1,16 @@
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/BookstoreApplication.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/controller/BookController.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/controller/CarrelloController.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/controller/LoginController.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/model/Book.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/model/Carrello.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/model/User.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/repository/BookRepository.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/repository/CarrelloRepository.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/repository/UserRepository.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/security/CustomUserDetails.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/security/CustomUserDetailsService.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/security/HttpSecurity.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/security/SecurityConfig.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/security/UserDetails.java
+/Users/rominatimis/Documents/GitHub/bookstore/src/main/java/com/example/bookstore/service/BookService.java

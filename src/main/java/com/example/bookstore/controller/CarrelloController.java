@@ -18,7 +18,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/carrello")
 public class CarrelloController {
 
     @Autowired
@@ -30,32 +30,62 @@ public class CarrelloController {
     @Autowired
     private UserRepository userRepo;
 
-    @PostMapping("/add/{bookId}")
-    public String addToCart(@PathVariable Long bookId, Principal principal) {
-        User user = userRepo.findByUsername(principal.getName());
+    @GetMapping("/add/{bookId}")
+public String addToCart(@PathVariable Long bookId, Principal principal) {
+    User user = userRepo.findByUsername(principal.getName());
 
-        Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId);
-        if (existing != null) {
-            existing.setQuantity(existing.getQuantity() + 1);
-        } else {
-            Carrello newItem = new Carrello();
-            newItem.setBookId(bookId);
-            newItem.setUserId(user.getId());
-            newItem.setQuantity(1);
-            cartRepo.save(newItem);
-        }
-
-        return "redirect:/books";
+    Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId);
+    if (existing != null) {
+        existing.setQuantity(existing.getQuantity() + 1);
+        cartRepo.save(existing);
+    } else {
+        Carrello newItem = new Carrello();
+        newItem.setBookId(bookId);
+        newItem.setUserId(user.getId());
+        newItem.setQuantity(1);
+        cartRepo.save(newItem);
     }
+
+    return "redirect:/books";
+}
+
 
     @GetMapping
-    public String viewCart(Principal principal, Model model) {
-        User user = userRepo.findByUsername(principal.getName());
-        List<Carrello> cartItems = cartRepo.findByUserId(user.getId());
-        model.addAttribute("cartItems", cartItems);
+public String viewCart(Principal principal, Model model) {
+    User user = userRepo.findByUsername(principal.getName());
+    List<Carrello> cartItems = cartRepo.findByUserId(user.getId());
 
-        // Passiamo anche i libri per i dettagli
-        model.addAttribute("booksMap", bookRepo.findAll());
-        return "cart";
+    model.addAttribute("carrelli", cartItems);
+    model.addAttribute("books", bookRepo.findAll());
+
+    // Calcola il totale
+    double totale = cartItems.stream()
+        .mapToDouble(item -> {
+            return bookRepo.findById(item.getBookId())
+                    .map(book -> book.getPrice().doubleValue() * item.getQuantity())
+                    .orElse(0.0);
+        })
+        .sum();
+
+    model.addAttribute("totale", totale);
+
+    return "carrello";
+}
+
+    
+    @GetMapping("/remove/{id}")
+public String removeFromCart(@PathVariable Long id, Principal principal) {
+    User user = userRepo.findByUsername(principal.getName());
+    Carrello item = cartRepo.findById(id).orElse(null);
+
+    if (item != null && item.getUserId().equals(user.getId())) {
+        cartRepo.delete(item);
     }
+
+    return "redirect:/carrello";
+}
+
+
+
+
 }

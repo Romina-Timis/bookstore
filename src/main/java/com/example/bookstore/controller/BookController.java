@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.bookstore.model.Book;
-import com.example.bookstore.repository.BookRepository;
+import com.example.bookstore.service.BookService;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @GetMapping("/books")
     public String viewBooks(Model model) {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookService.getAllBooks();
         model.addAttribute("books", books);
-        return "books"; // --> books.html in templates
+        return "books"; // Assicurati che il file template si chiami books.html in src/main/resources/templates
     }
 }
