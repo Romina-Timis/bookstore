@@ -56,15 +56,15 @@ public class CarrelloController {
         User user = userRepo.findByUsername(principal.getName());
         List<Carrello> cartItems = cartRepo.findByUserId(user.getId());
         model.addAttribute("carrelli", cartItems);
-    
+
         // Crea una mappa bookId -> Book
         Map<Long, Book> booksMap = bookRepo.findAll().stream()
                 .collect(Collectors.toMap(Book::getId, book -> book));
         model.addAttribute("booksMap", booksMap);
-    
+
         // Calcolo del totale
         BigDecimal totale = BigDecimal.ZERO;
-    
+
         for (Carrello item : cartItems) {
             Book book = booksMap.get(item.getBookId());
             if (book != null && book.getPrice() != null) {
@@ -72,14 +72,13 @@ public class CarrelloController {
                 totale = totale.add(subTot);
             }
         }
-    
+
         // Arrotondamento finale (fuori dal ciclo!)
         totale = totale.setScale(2, RoundingMode.HALF_UP);
         model.addAttribute("totale", totale);
-    
+
         return "carrello";
     }
-    
 
     @GetMapping("/remove/{id}")
     public String removeFromCart(@PathVariable Long id, Principal principal) {
@@ -88,6 +87,19 @@ public class CarrelloController {
 
         if (item != null && item.getUserId().equals(user.getId())) {
             cartRepo.delete(item);
+        }
+
+        return "redirect:/carrello";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateQuantity(@PathVariable Long id, @RequestParam int quantity, Principal principal) {
+        User user = userRepo.findByUsername(principal.getName());
+        Carrello item = cartRepo.findById(id).orElse(null);
+
+        if (item != null && item.getUserId().equals(user.getId()) && quantity > 0) {
+            item.setQuantity(quantity);
+            cartRepo.save(item);
         }
 
         return "redirect:/carrello";
