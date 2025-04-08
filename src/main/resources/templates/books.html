@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Libreria - Libri Disponibili</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <nav style="display: flex; justify-content: space-between; padding: 1rem; background-color: #f0f0f0;">
+        <div><strong>Libreria Online</strong></div>
+        <div><a href="/logout">Logout</a></div>
+    </nav>
+
+    <main style="padding: 2rem;">
+        <h2>Libri Disponibili</h2>
+        <div th:if="${books.isEmpty()}">
+            <p>Nessun libro disponibile.</p>
+        </div>
+
+        <div th:each="book : ${books}" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+            <h3 th:text="${book.title}"></h3>
+            <p><strong>Autore:</strong> <span th:text="${book.author}"></span></p>
+            <p><strong>Prezzo:</strong> <span th:text="${book.price}"></span> €</p>
+            <p><strong>Descrizione:</strong> <span th:text="${book.description}"></span></p>
+            <img th:if="${book.imageUrl}" th:src="${book.imageUrl}" alt="Copertina" style="max-width: 150px;" />
+        </div>
+    </main>
+
+</body>
+</html>
