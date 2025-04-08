@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Carrello;
@@ -32,24 +33,26 @@ public class CarrelloController {
     @Autowired
     private UserRepository userRepo;
 
-    @GetMapping("/add/{bookId}")
-    public String addToCart(@PathVariable Long bookId, Principal principal) {
-        User user = userRepo.findByUsername(principal.getName());
+    @PostMapping("/add/{bookId}")
+public String addToCart(@PathVariable Long bookId, Principal principal, RedirectAttributes redirectAttributes) {
+    User user = userRepo.findByUsername(principal.getName());
 
-        Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId);
-        if (existing != null) {
-            existing.setQuantity(existing.getQuantity() + 1);
-            cartRepo.save(existing);
-        } else {
-            Carrello newItem = new Carrello();
-            newItem.setBookId(bookId);
-            newItem.setUserId(user.getId());
-            newItem.setQuantity(1);
-            cartRepo.save(newItem);
-        }
-
-        return "redirect:/carrello";
+    Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId);
+    if (existing != null) {
+        existing.setQuantity(existing.getQuantity() + 1);
+        cartRepo.save(existing);
+    } else {
+        Carrello newItem = new Carrello();
+        newItem.setBookId(bookId);
+        newItem.setUserId(user.getId());
+        newItem.setQuantity(1);
+        cartRepo.save(newItem);
     }
+
+    redirectAttributes.addFlashAttribute("successMessage", "Libro aggiunto al carrello!");
+    return "redirect:/carrello";
+}
+
 
     @GetMapping
     public String viewCart(Principal principal, Model model) {
@@ -81,16 +84,18 @@ public class CarrelloController {
     }
 
     @GetMapping("/remove/{id}")
-    public String removeFromCart(@PathVariable Long id, Principal principal) {
-        User user = userRepo.findByUsername(principal.getName());
-        Carrello item = cartRepo.findById(id).orElse(null);
+public String removeFromCart(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
+    User user = userRepo.findByUsername(principal.getName());
+    Carrello item = cartRepo.findById(id).orElse(null);
 
-        if (item != null && item.getUserId().equals(user.getId())) {
-            cartRepo.delete(item);
-        }
-
-        return "redirect:/carrello";
+    if (item != null && item.getUserId().equals(user.getId())) {
+        cartRepo.delete(item);
+        redirectAttributes.addFlashAttribute("successMessage", "Libro rimosso dal carrello.");
     }
+
+    return "redirect:/carrello";
+}
+
 
     @PostMapping("/update/{id}")
     public String updateQuantity(@PathVariable Long id, @RequestParam int quantity, Principal principal) {
@@ -104,5 +109,16 @@ public class CarrelloController {
 
         return "redirect:/carrello";
     }
+
+    @PostMapping("/clear")
+    public String clearCart(Principal principal, RedirectAttributes redirectAttributes) {
+        User user = userRepo.findByUsername(principal.getName());
+        List<Carrello> items = cartRepo.findByUserId(user.getId());
+        cartRepo.deleteAll(items);
+    
+        redirectAttributes.addFlashAttribute("successMessage", "Carrello svuotato con successo.");
+        return "redirect:/carrello";
+    }
+    
 
 }

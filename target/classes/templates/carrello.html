@@ -22,16 +22,24 @@
     
     <main style="padding: 2rem;">
         <h2>Il tuo Carrello</h2>
+        <div th:if="${successMessage}" style="background-color: #d4edda; color: #155724; padding: 1rem; margin-bottom: 1rem; border: 1px solid #c3e6cb;">
+            <p th:text="${successMessage}"></p>
+        </div>
+        
 
         <div th:if="${carrelli.isEmpty()}">
             <p>Il tuo carrello è vuoto.</p>
         </div>
 
         <div th:each="item : ${carrelli}" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
-            <p><strong>Libro:</strong> 
-                <!-- Accedi direttamente al titolo usando la mappa -->
-                <span th:text="${booksMap[item.bookId].title}">Titolo</span>
-            </p>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img th:src="${booksMap[item.bookId].imageUrl}" alt="Copertina libro" style="max-width: 100px;" />
+                <div>
+                    <p><strong>Libro:</strong> <span th:text="${booksMap[item.bookId].title}">Titolo</span></p>
+                    <p><strong>Autore:</strong> <span th:text="${booksMap[item.bookId].author}">Autore</span></p>
+                </div>
+            </div>
+            
             <form th:action="@{/carrello/update/{id}(id=${item.id})}" method="post" style="display: flex; gap: 1rem; align-items: center;">
                 <label>
                     <strong>Quantità:</strong>
@@ -55,6 +63,13 @@
         <h3 style="margin-top: 1rem; color: green;">
             Totale: <span th:text="${totale} + ' €'"></span>
         </h3>
+
+        <form th:action="@{/carrello/clear}" method="post">
+            <button type="submit" style="background-color: red; color: white; padding: 0.5rem 1rem; margin-top: 1rem;">
+                🗑️ Svuota carrello
+            </button>
+        </form>
+        
 
 
     </main>
