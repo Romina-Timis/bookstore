@@ -14,6 +14,12 @@
         <div><a href="/logout">Logout</a></div>
     </nav>
 
+    <div style="margin: 1rem 0;">
+        <a href="/books" style="padding: 0.5rem 1rem; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+            ← Torna ai libri
+        </a>
+    </div>
+    
     <main style="padding: 2rem;">
         <h2>Il tuo Carrello</h2>
 
@@ -22,15 +28,19 @@
         </div>
 
         <div th:each="item : ${carrelli}" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
-            <p><strong>Libro:</strong>
-                <span th:text="${#lists.find(books, b -> b.id == item.bookId)?.title}">Titolo</span>
+            <p><strong>Libro:</strong> 
+                <!-- Accedi direttamente al titolo usando la mappa -->
+                <span th:text="${booksMap[item.bookId].title}">Titolo</span>
             </p>
             <p><strong>Quantità:</strong> <span th:text="${item.quantity}">1</span></p>
-
+            
             <form th:action="@{'/carrello/remove/' + ${item.id}}" method="get">
                 <button type="submit" style="margin-top: 0.5rem;">Rimuovi</button>
             </form>
         </div>
+        
+        <hr>
+        <h3 style="margin-top: 1rem; color: green;">Totale: <span th:text="${totale} + ' €'"></span></h3>
         <hr>
 
         <h3 style="margin-top: 1rem; color: green;">
