@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Conferma Ordine</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Grazie per il tuo ordine!</h1>
+        <p>Il tuo ordine è stato ricevuto e verrà elaborato al più presto.</p>
+        <div class="order-id">
+            Numero ordine: <span th:text="${param.orderId}">#0000</span>
+        </div>
+
+        <a href="/" class="btn-home">Torna alla Home</a>
+    </div>
+
+</body>
+</html>

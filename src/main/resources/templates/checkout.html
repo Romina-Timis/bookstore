@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+</head>
+<body>
+
+    <div class="container">
+        <h1>Checkout</h1>
+
+        <h2>Riepilogo Carrello</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Quantità</th>
+                    <th>Prezzo</th>
+                    <th>Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${carrelli}">
+                    <td th:text="${booksMap[item.bookId].title}">Titolo</td>
+                    <td th:text="${item.quantity}">1</td>
+                    <td th:text="${booksMap[item.bookId].price} + ' €'">0.00 €</td>
+                    <td th:text="${#numbers.formatDecimal(booksMap[item.bookId].price * item.quantity, 1, 'POINT', 2, 'POINT')} + ' €'">0.00 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Dati di Spedizione</h2>
+        <form th:action="@{/checkout}" method="post" th:object="${orderForm}">
+            <div>
+                <label for="fullName">Nome completo:</label>
+                <input type="text" th:field="*{fullName}" required>
+            </div>
+
+            <div>
+                <label for="address">Indirizzo:</label>
+                <input type="text" th:field="*{address}" required>
+            </div>
+
+            <div>
+                <label for="city">Città:</label>
+                <input type="text" th:field="*{city}" required>
+            </div>
+
+            <div>
+                <label for="postalCode">CAP:</label>
+                <input type="text" th:field="*{postalCode}" required>
+            </div>
+
+            <button type="submit" class="btn-conferma">Conferma Ordine</button>
+
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,6 +1,5 @@
 package com.example.bookstore.model;
 
-
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

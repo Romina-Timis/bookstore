@@ -13,6 +13,8 @@ import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.repository.CarrelloRepository;
 import com.example.bookstore.repository.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.Principal;
@@ -48,7 +50,7 @@ public class CarrelloController {
         // calcola il totale del carrello
         BigDecimal totale = BigDecimal.ZERO;
 
-        for (Carrello item : cartItems) {   // itera gli articoli e somma il totale
+        for (Carrello item : cartItems) { // itera gli articoli e somma il totale
             Book book = booksMap.get(item.getBookId());
             if (book != null && book.getPrice() != null) {
                 BigDecimal subTot = book.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
@@ -62,6 +64,7 @@ public class CarrelloController {
 
         return "carrello";
     }
+
     // metodo per rimuovere un libro dal carrello
     @GetMapping("/remove/{id}")
     public String removeFromCart(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
@@ -74,29 +77,40 @@ public class CarrelloController {
         }
         return "redirect:/carrello";
     }
+
     // metodo per aggiornare la quantità di un prodotto nel carrello
     @PostMapping("/update/{id}")
     public String updateQuantity(@PathVariable Long id, @RequestParam int quantity, Principal principal) {
         User user = userRepo.findByUsername(principal.getName());
         Carrello item = cartRepo.findById(id).orElse(null); // trova l'articolo usando l'id
-        // verifica se l'articolo esiste, se appartiene all'utente e se la quantità è maggiore di 0
+        // verifica se l'articolo esiste, se appartiene all'utente e se la quantità è
+        // maggiore di 0
         if (item != null && item.getUserId().equals(user.getId()) && quantity > 0) {
-            item.setQuantity(quantity); // imposta la nuova quantità 
+            item.setQuantity(quantity); // imposta la nuova quantità
             cartRepo.save(item); // salva le modifiche
         }
 
         return "redirect:/carrello";
     }
-    
+
     // metodo per svuotare il carrello
     @PostMapping("/clear")
     public String clearCart(Principal principal, RedirectAttributes redirectAttributes) {
         User user = userRepo.findByUsername(principal.getName());
         List<Carrello> items = cartRepo.findByUserId(user.getId());
-        cartRepo.deleteAll(items); // elimina tutti gli articoli del carrello 
+        cartRepo.deleteAll(items); // elimina tutti gli articoli del carrello
 
         redirectAttributes.addFlashAttribute("successMessage", "Carrello svuotato con successo.");
         return "redirect:/carrello";
     }
+
+    @GetMapping("/carrello")
+    public String mostraCarrello(HttpSession session, Model model) {
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+        model.addAttribute("cart", cart);
+        return "carrello";
+    }
+
+   
 
 }

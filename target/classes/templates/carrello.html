@@ -72,11 +72,22 @@
             Totale: <span th:text="${totale} + ' €'"></span>
         </h3>
 
-        <form th:action="@{/carrello/clear}" method="post">
-            <button type="submit" style="background-color: red; color: white; padding: 0.5rem 1rem; margin-top: 1rem;">
-                Svuota carrello
-            </button>
-        </form>
+        <div class="cart-actions">
+            <form th:action="@{/carrello/svuota}" method="post">
+                <button type="submit">Svuota Carrello</button>
+            </form>
+        
+            <form th:action="@{/checkout}" method="get">
+                <button type="submit">Procedi al Checkout</button>
+            </form>
+        </div>
+        
+        
+        
+        
+        
+        
+        
         
 
 
