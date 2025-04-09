@@ -27,6 +27,13 @@
 
             <button type="submit">Login</button>
         </form>
+        
+        <div style="margin: 1rem auto; text-align: center;">
+            <p>Non hai un account? 
+                <a href="/register" style="color: #007bff; text-decoration: none;">Registrati qui</a>
+            </p>
+        </div>
+
         <!-- Messaggio di errore -->
         <p th:if="${param.error}" style="color: red; text-align: center; width: 100%; margin-top: 1rem;">
             Credenziali errate, riprova.

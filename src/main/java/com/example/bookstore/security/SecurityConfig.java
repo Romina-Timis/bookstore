@@ -1,6 +1,5 @@
 package com.example.bookstore.security;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,7 +18,7 @@ public class SecurityConfig {
     private final LoginHandler loginHandler;
     // costruttore 
     public SecurityConfig(CustomUserDetailsService userDetailsService, LoginHandler loginHandler) {
-        this.userDetailsService = userDetailsService; // recuprea info dell'utente
+        this.userDetailsService = userDetailsService; // recupera info dell'utente
         this.loginHandler = loginHandler; // indirizza gli utenti in base al loro ruolo
     }
 
@@ -28,7 +27,7 @@ public class SecurityConfig {
         http
             .authenticationProvider(authenticationProvider()) // provider per autenticazione, verifica credenziali
             .authorizeHttpRequests(auth -> auth  // definisce le regole
-                .requestMatchers("/", "/login", "/css/**").permitAll() // chiunque può accedere a queste pagine
+                .requestMatchers("/", "/login", "/register", "/css/**").permitAll() // aggiungi "/register" per permettere l'accesso alla registrazione
                 .requestMatchers("/admin/**").hasRole("ADMIN") // solo admin può accedere a queste pagine
                 .requestMatchers("/books/**", "/carrello/**").hasRole("USER") // solo gli utenti possono accedere a queste pagine
                 .anyRequest().authenticated() // qualsiasi altra richiesta deve essere autenticata
@@ -36,12 +35,13 @@ public class SecurityConfig {
             .formLogin(form -> form // comportamento del login
                 .loginPage("/login") // pagina di login personalizzata
                 .successHandler(loginHandler)  // reindirizza l'utente in base al suo ruolo
-                .permitAll() // // chiunque può accedere alla pagina di login
+                .permitAll() // chiunque può accedere alla pagina di login
             )
             .logout(logout -> logout.permitAll());
 
         return http.build();
     }
+
     // metodo per autenticare gli utenti
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -50,6 +50,7 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
     // metodo per codificare la password
     @Bean
     public PasswordEncoder passwordEncoder() {
