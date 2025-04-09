@@ -23,48 +23,42 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private BookService bookService; // gestione dei libri
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepo; // repository per gli utenti
     
     @Autowired
-    private CarrelloRepository cartRepo;
+    private CarrelloRepository cartRepo; // repository per il carrello
     
-
+    // metodo get per visualizzare i libri nella pagina books
     @GetMapping("/books")
     public String viewBooks(Model model) {
-        List<Book> books = bookService.getAllBooks();
-        model.addAttribute("books", books);
-        return "books"; // Assicurati che il file template si chiami books.html in
-                        // src/main/resources/templates
+        List<Book> books = bookService.getAllBooks(); // recupera la lista di tutti i libri 
+        model.addAttribute("books", books); // aggiunge la lista di libri al modello
+        return "books"; 
     }
-
+    // metodo per aggiungere un libro al carrello
     @PostMapping("/carrello/add/{bookId}")
     public String addToCart(@PathVariable Long bookId, Principal principal, RedirectAttributes redirectAttributes) {
-        // Ottieni l'utente corrente
-        User user = userRepo.findByUsername(principal.getName());
+        User user = userRepo.findByUsername(principal.getName());// recupera l'utente autentificato
+        Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId); // verifica se il libro è già nel carrello dell'utente
         
-        // Verifica se il libro è già nel carrello dell'utente
-        Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId);
-        
-        if (existing != null) {
-            // Se il libro è già nel carrello, aggiorna la quantità
+        if (existing != null) {    // se il libro è già nel carrello, aggiorna la quantità e la incrementa di 1
             existing.setQuantity(existing.getQuantity() + 1);
             cartRepo.save(existing);
-        } else {
-            // Se il libro non è nel carrello, crealo
+        } else { // altrimenti se il libro non è nel carrello, crea un nuovo oggetto Carrello
             Carrello newItem = new Carrello();
             newItem.setBookId(bookId);
             newItem.setUserId(user.getId());
-            newItem.setQuantity(1); // Aggiungi una copia del libro
+            newItem.setQuantity(1); // aggiunge una copia del libro
             cartRepo.save(newItem);
         }
     
-        // Aggiungi un messaggio di successo e l'URL per il carrello
+        // messaggio di successo
         redirectAttributes.addFlashAttribute("successMessage", "Libro aggiunto al carrello con successo!");
         redirectAttributes.addFlashAttribute("goToCart", "/carrello");
-        return "redirect:/books"; // Torna alla pagina dei libri
+        return "redirect:/books"; 
     }
     
     

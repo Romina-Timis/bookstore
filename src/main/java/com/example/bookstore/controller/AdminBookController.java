@@ -22,14 +22,14 @@ public class AdminBookController {
         return "admin-books";
     }
 
-    // FORM: Aggiungi nuovo libro
+    // Aggiungi nuovo libro
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("book", new Book());
         return "add-book";
     }
 
-    // ACTION: Salva nuovo libro
+    // Salva nuovo libro
     @PostMapping("/save")
     public String saveBook(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
         bookRepository.save(book);
@@ -37,7 +37,7 @@ public class AdminBookController {
         return "redirect:/admin/books";
     }
 
-    // FORM: Modifica libro esistente
+    // Modifica libro esistente
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Book book = bookRepository.findById(id)
@@ -46,7 +46,7 @@ public class AdminBookController {
         return "edit-book";
     }
 
-    // ACTION: Salva modifiche libro
+    // Salva modifiche libro
     @PostMapping("/edit/{id}")
     public String updateBook(@PathVariable Long id, @ModelAttribute("book") Book updatedBook,
                              RedirectAttributes redirectAttributes) {
@@ -64,7 +64,7 @@ public class AdminBookController {
         return "redirect:/admin/books";
     }
 
-    // ACTION: Elimina libro
+    // Elimina libro
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable Long id) {
         bookRepository.deleteById(id);

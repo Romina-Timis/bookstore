@@ -12,17 +12,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
-public class LoginHandler implements AuthenticationSuccessHandler {
+@Component // componente gestita da Spring
+public class LoginHandler implements AuthenticationSuccessHandler { // fondamentale per gestire il login non andato a buon fine
+// in base al ruolo dell'utente la classe reindirizza l'utente verso una pagina specifica
 
+    // metodo chiamato automaticamente da spring dopo login con successo
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication)
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication)
                                         throws IOException, ServletException {
-
-        // Reindirizza in base al ruolo
-        for (GrantedAuthority auth : authentication.getAuthorities()) {
+        for (GrantedAuthority auth : authentication.getAuthorities()) { 
             if ("ROLE_ADMIN".equals(auth.getAuthority())) {
                 response.sendRedirect("/admin/books");
                 return;
@@ -32,7 +30,6 @@ public class LoginHandler implements AuthenticationSuccessHandler {
             }
         }
 
-        // Ruolo sconosciuto, fallback su index
         response.sendRedirect("/");
     }
 }
