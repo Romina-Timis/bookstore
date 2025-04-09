@@ -138,3 +138,333 @@ form.login-form button[type="submit"] {
 form.login-form button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+/* pagina books */
+/* Container per ogni libro */
+.book-item {
+    display: flex;
+    gap: 2rem;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+    align-items: flex-start;
+}
+
+/* Immagine del libro */
+.book-item img {
+    max-width: 120px;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* Contenitore dei dettagli */
+.book-details {
+    flex: 1;
+}
+
+/* Pulsante allineato a destra */
+.book-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.add-to-cart-btn {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Titolo più grande */
+.book-details h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+/* Descrizione e testo */
+.book-details p {
+    margin: 0.3rem 0;
+    color: #555;
+}
+
+
+/* Stile per ciascun elemento nel carrello */
+.cart-item {
+    display: flex;
+    gap: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  
+  /* Immagine del libro */
+  .cart-item img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  /* Dettagli del libro e form */
+  .cart-details {
+    flex: 1;
+  }
+  
+  /* Form con quantità e pulsanti */
+  .cart-details form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Quantità input */
+  .cart-details input[type="number"] {
+    width: 60px;
+  }
+  
+  /* Pulsanti del carrello */
+  .cart-details button,
+  .cart-details a {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .cart-details button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+  }
+  
+  .cart-details a {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .return-to-books {
+    background-color: #A9B5DF;
+    color: #000; /* colore del font nero */
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .return-to-books:hover {
+    background-color: #8f9cc8;
+  }
+
+  /* Navbar coerente */
+nav.navbar {
+    background-color: #A9B5DF;
+    color: #000;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav.navbar a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* Pulsante Aggiungi Libro */
+  a.add-book-button {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  a.add-book-button:hover {
+    background-color: #218838;
+  }
+  
+  /* Contenitore dei libri */
+  .book-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fdfdfd;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  /* Info libro */
+  .book-entry h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .book-entry p {
+    margin: 0.2rem 0;
+    color: #444;
+    font-size: 0.95rem;
+  }
+  
+  /* Azioni */
+  .book-entry .actions a {
+    text-decoration: none;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .book-entry .actions a:first-child {
+    background-color: #007bff;
+  }
+  
+  .book-entry .actions a:first-child:hover {
+    background-color: #0069d9;
+  }
+  
+  .book-entry .actions a:last-child {
+    background-color: #dc3545;
+  }
+  
+  .book-entry .actions a:last-child:hover {
+    background-color: #c82333;
+  }
+
+  /* Personalizzazione del bottone nel form di logout */
+form button {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+/* Per il bottone Logout nella navbar */
+.navbar-button {
+    padding: 0.5rem 1rem;
+    background-color: #A9B5DF; /* Stesso colore della navbar */
+    color: #000; /* Colore del font nero */
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold; /* Testo in grassetto */
+    cursor: pointer;
+    border: none;
+}
+
+.navbar-button:hover {
+    background-color: #8a9fbf; /* Cambia colore al passaggio del mouse */
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #A9B5DF; /* Cambia questo colore se preferisci un altro */
+    color: white;
+    font-weight: bold;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Main Container */
+.main-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Success Message */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #c3e6cb;
+}
+
+/* Form Styling */
+.book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Input Group */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.input-group input,
+.input-group textarea {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+}
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Button Styling */
+.btn-save {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #218838;
+}
+
+
+  

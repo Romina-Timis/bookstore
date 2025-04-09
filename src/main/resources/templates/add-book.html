@@ -2,30 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Aggiungi Libro</title>
+    <title>Modifica Libro</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav>
-    <div><a href="/admin/books"><strong>📚 Admin Catalogo</strong></a></div>
-    <div><a href="/logout">Logout</a></div>
-</nav>
 
-<main>
-    <h2>Aggiungi Nuovo Libro</h2>
+    <nav class="navbar">
+        <div><a href="/admin/books"><strong></strong></a></div>
+        <div><a href="/logout" class="navbar-button">Logout</a></div>
+    </nav>
 
-    <form th:action="@{/admin/books/save}" th:object="${book}" method="post">
-        <!-- campi input -->
-   
-    
+    <main class="main-container">
+        <h2>Modifica Libro</h2>
 
-        <input type="text" th:field="*{title}" placeholder="Titolo" required />
-        <input type="text" th:field="*{author}" placeholder="Autore" required />
-        <textarea th:field="*{description}" placeholder="Descrizione"></textarea>
-        <input type="number" step="0.01" th:field="*{price}" placeholder="Prezzo" required />
-        <input type="text" th:field="*{imageUrl}" placeholder="URL immagine" />
-        <button type="submit">Salva</button>
-    </form>
-</main>
+        <div th:if="${successMessage}" class="success-message">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <form th:action="@{'/admin/books/edit/' + ${book.id}}" th:object="${book}" method="post" class="book-form">
+            <div class="input-group">
+                <label for="title">Titolo</label>
+                <input type="text" id="title" th:field="*{title}" placeholder="Titolo del libro" required />
+            </div>
+            
+            <div class="input-group">
+                <label for="author">Autore</label>
+                <input type="text" id="author" th:field="*{author}" placeholder="Autore del libro" required />
+            </div>
+            
+            <div class="input-group">
+                <label for="description">Descrizione</label>
+                <textarea id="description" th:field="*{description}" placeholder="Descrizione del libro" required></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="price">Prezzo</label>
+                <input type="number" id="price" th:field="*{price}" step="0.01" placeholder="Prezzo del libro" required />
+            </div>
+            
+            <div class="input-group">
+                <label for="imageUrl">URL Immagine</label>
+                <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="URL dell'immagine" />
+            </div>
+
+            <button type="submit" class="btn-save">Salva</button>
+        </form>
+    </main>
+
 </body>
 </html>

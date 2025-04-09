@@ -11,7 +11,11 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div><strong>Bookstore</strong></div>
-        <div><a href="/login">Login</a></div>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">Logout</button>
+        </form>
+        
+        
     </nav>
     
 
@@ -25,20 +29,24 @@
         </div>
         
         <!-- Ciclo su ciascun libro -->
-        <div th:each="book : ${books}" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
-            <h3 th:text="${book.title}">Titolo del Libro</h3>
-            <p><strong>Autore:</strong> <span th:text="${book.author}">Autore del Libro</span></p>
-            <p><strong>Prezzo:</strong> <span th:text="${book.price}">Prezzo</span> €</p>
-            <p><strong>Descrizione:</strong> <span th:text="${book.description}">Descrizione</span></p>
-            <img th:if="${book.imageUrl}" th:src="${book.imageUrl}" alt="Copertina" style="max-width: 150px;" />
-            
-            <!-- Pulsante Aggiungi al Carrello -->
-            <form th:action="@{'/carrello/add/' + ${book.id}}" method="post" style="display:inline;">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <button type="submit" class="add-to-cart-btn">Aggiungi al carrello</button>
-            </form>
-            
+        <div th:each="book : ${books}" class="book-item">
+            <img th:if="${book.imageUrl}" th:src="${book.imageUrl}" alt="Copertina" />
+        
+            <div class="book-details">
+                <h3 th:text="${book.title}">Titolo del Libro</h3>
+                <p><strong>Autore:</strong> <span th:text="${book.author}">Autore del Libro</span></p>
+                <p><strong>Prezzo:</strong> <span th:text="${book.price}">Prezzo</span> €</p>
+                <p><strong>Descrizione:</strong> <span th:text="${book.description}">Descrizione</span></p>
+        
+                <div class="book-actions">
+                    <form th:action="@{'/carrello/add/' + ${book.id}}" method="post" style="margin: 0;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="add-to-cart-btn">Aggiungi al carrello</button>
+                    </form>
+                </div>
+            </div>
         </div>
+        
     </main>
 
 </body>

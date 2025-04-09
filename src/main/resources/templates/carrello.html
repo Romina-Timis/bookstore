@@ -11,15 +11,22 @@
 
     <nav class="navbar">
         <div><strong>Bookstore</strong></div>
-        <div><a href="/login">Login</a></div>
+        <div>
+            <span th:if="${#authorization.expression('isAuthenticated()')}">
+                <a href="/logout">Logout</a>
+            </span>
+            <span th:unless="${#authorization.expression('isAuthenticated()')}">
+                <a href="/login">Login</a>
+            </span>
+        </div>
+        
     </nav>
     
 
-    <div style="margin: 1rem 0;">
-        <a href="/books" style="padding: 0.5rem 1rem; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
-            ← Torna ai libri
-        </a>
-    </div>
+    <a href="/books" class="return-to-books">
+        ← Torna ai libri
+    </a>
+    
     
     <main style="padding: 2rem;">
         <h2>Il tuo Carrello</h2>
@@ -67,7 +74,7 @@
 
         <form th:action="@{/carrello/clear}" method="post">
             <button type="submit" style="background-color: red; color: white; padding: 0.5rem 1rem; margin-top: 1rem;">
-                🗑️ Svuota carrello
+                Svuota carrello
             </button>
         </form>
         
