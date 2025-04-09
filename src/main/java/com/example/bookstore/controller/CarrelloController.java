@@ -33,27 +33,6 @@ public class CarrelloController {
     @Autowired
     private UserRepository userRepo;
 
-    @PostMapping("/add/{bookId}")
-public String addToCart(@PathVariable Long bookId, Principal principal, RedirectAttributes redirectAttributes) {
-    User user = userRepo.findByUsername(principal.getName());
-
-    Carrello existing = cartRepo.findByUserIdAndBookId(user.getId(), bookId);
-    if (existing != null) {
-        existing.setQuantity(existing.getQuantity() + 1);
-        cartRepo.save(existing);
-    } else {
-        Carrello newItem = new Carrello();
-        newItem.setBookId(bookId);
-        newItem.setUserId(user.getId());
-        newItem.setQuantity(1);
-        cartRepo.save(newItem);
-    }
-
-    redirectAttributes.addFlashAttribute("successMessage", "Libro aggiunto al carrello!");
-    return "redirect:/carrello";
-}
-
-
     @GetMapping
     public String viewCart(Principal principal, Model model) {
         User user = userRepo.findByUsername(principal.getName());
@@ -84,18 +63,17 @@ public String addToCart(@PathVariable Long bookId, Principal principal, Redirect
     }
 
     @GetMapping("/remove/{id}")
-public String removeFromCart(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
-    User user = userRepo.findByUsername(principal.getName());
-    Carrello item = cartRepo.findById(id).orElse(null);
+    public String removeFromCart(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
+        User user = userRepo.findByUsername(principal.getName());
+        Carrello item = cartRepo.findById(id).orElse(null);
 
-    if (item != null && item.getUserId().equals(user.getId())) {
-        cartRepo.delete(item);
-        redirectAttributes.addFlashAttribute("successMessage", "Libro rimosso dal carrello.");
+        if (item != null && item.getUserId().equals(user.getId())) {
+            cartRepo.delete(item);
+            redirectAttributes.addFlashAttribute("successMessage", "Libro rimosso dal carrello.");
+        }
+
+        return "redirect:/carrello";
     }
-
-    return "redirect:/carrello";
-}
-
 
     @PostMapping("/update/{id}")
     public String updateQuantity(@PathVariable Long id, @RequestParam int quantity, Principal principal) {
@@ -115,10 +93,9 @@ public String removeFromCart(@PathVariable Long id, Principal principal, Redirec
         User user = userRepo.findByUsername(principal.getName());
         List<Carrello> items = cartRepo.findByUserId(user.getId());
         cartRepo.deleteAll(items);
-    
+
         redirectAttributes.addFlashAttribute("successMessage", "Carrello svuotato con successo.");
         return "redirect:/carrello";
     }
-    
 
 }
