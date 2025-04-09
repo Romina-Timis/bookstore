@@ -466,5 +466,11 @@ form button {
     background-color: #218838;
 }
 
+.navbar a {
+  margin-right: 1rem; /* Aggiungi margine destro a tutti i link */
+}
 
-  
+.navbar .cart-button {
+  margin-left: 1rem; /* Aggiungi margine sinistro specificamente al bottone del carrello */
+}
+
